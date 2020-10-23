@@ -1,8 +1,7 @@
 #pragma once
 
-#include <deque>
-
 #include "eight_digits.h"
+
 
 class Queue {
 

@@ -23,15 +23,15 @@ public:
 
 	std::vector<int> GetBoard() const { return board_; }
 
-	int GetHValue() const { return h_value_; }
-	
-	static int GetBoardSize() { return row_ * column_; }
-	
 	inline void SetHeuristicValue();
 
 	inline int GetSpacePosition();
 
-	inline int GetTimeStamp() const { return time_stamp; }
+	int GetHValue() const { return h_value_; }
+	
+	static int GetBoardSize() { return row_ * column_; }
+
+	inline int GetGValue() const { return g_value_; }
 
 	bool TakeMove(Move);
 	
@@ -39,14 +39,14 @@ public:
 	{
 		board_ = digits;
 		h_value_ = SumManhattanDistance();
-		time_stamp = 0;
+		g_value_ = 0;
 	};
 
 	void Init(const GameBoard& rhs)
 	{
 		board_ = rhs.GetBoard();
 		h_value_ = rhs.GetHValue();
-		time_stamp = rhs.GetTimeStamp();
+		g_value_ = rhs.GetGValue();
 	}
 
 private:
@@ -55,5 +55,5 @@ private:
 
 	int SumManhattanDistance();
 	int h_value_ = 0; // heuristic value
-	int time_stamp = 0;
+	int g_value_ = 0;
 };

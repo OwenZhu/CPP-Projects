@@ -21,8 +21,8 @@ int GameBoard::SumManhattanDistance()
 
 void GameBoard::SetHeuristicValue()
 {
-	time_stamp++;
-	h_value_ = SumManhattanDistance() + time_stamp;
+	g_value_++;
+	h_value_ = SumManhattanDistance() + g_value_;
 }
 
 bool GameBoard::TakeMove(const Move move)
