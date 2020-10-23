@@ -3,6 +3,9 @@
 #include "eight_digits.h"
 
 
+const Move MOVES[] = { Move::kUp, Move::kDown, Move::kLeft, Move::kRight };
+
+
 class Queue {
 
 public:

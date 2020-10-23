@@ -69,27 +69,16 @@ void AStarAlgorithm::Run() const
 
 void AStarAlgorithm::ExpandNode(GameBoard* gb) const
 {
-	auto* new_gb = new GameBoard();
-	new_gb->Init(*gb);
-	new_gb->TakeMove(Move::kUp);
-	if(!visited_queue_->IsInQueue(new_gb) && !queue_->IsInQueue(new_gb))
-		queue_->Enqueue(new_gb);
 
-	new_gb = new GameBoard();
-	new_gb->Init(*gb);
-	new_gb->TakeMove(Move::kDown);
-	if (!visited_queue_->IsInQueue(new_gb) && !queue_->IsInQueue(new_gb))
-		queue_->Enqueue(new_gb);
-
-	new_gb = new GameBoard();
-	new_gb->Init(*gb);
-	new_gb->TakeMove(Move::kLeft);
-	if (!visited_queue_->IsInQueue(new_gb) && !queue_->IsInQueue(new_gb))
-		queue_->Enqueue(new_gb);
-
-	new_gb = new GameBoard();
-	new_gb->Init(*gb);
-	new_gb->TakeMove(Move::kRight);
-	if (!visited_queue_->IsInQueue(new_gb) && !queue_->IsInQueue(new_gb))
-		queue_->Enqueue(new_gb);
+	for (const auto& m : MOVES)
+	{
+		auto* new_gb = new GameBoard();
+		
+		new_gb->Init(*gb);
+		
+		new_gb->TakeMove(m);
+		
+		if (!visited_queue_->IsInQueue(new_gb) && !queue_->IsInQueue(new_gb))
+			queue_->Enqueue(new_gb);
+	}
 }
