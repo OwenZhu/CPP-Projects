@@ -17,7 +17,7 @@ AStarAlgorithm::AStarAlgorithm()
 	
 	std::default_random_engine rng(seed);
 
-	std::vector<int> init_digits = { 1, 2, 3, 4, 0, 5, 6, 7, 8 };
+	std::vector<int> init_digits = { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
 	
 	auto* init_gb = new GameBoard();
 
@@ -42,25 +42,26 @@ AStarAlgorithm::AStarAlgorithm()
 void AStarAlgorithm::Run() const
 {
 	int count = 0;
+	
 	while (queue_->GetQueueLength() != 0) {
 		
 		auto* node = queue_->Dequeue();
+
+		node->Display();
 		
 		visited_queue_->Enqueue(node);
 		
 		if (node->IsSolved()) {
 			
-			std::cout << "Searching Finished" << std::endl;
-
-			node->Display();
+			std::cout << "Searching Finish" << std::endl;
 			
 			break;
 		}
 
 		ExpandNode(node);
-		
-		node->Display();
+
 		count++;
+		
 		std::cout << count << " --- " << node->GetHValue() << std::endl;
 	}
 }
