@@ -12,6 +12,12 @@ public:
 	
 	Queue() { queue_ = {}; };
 
+	~Queue() {
+		for (int i = 0; i < queue_.size(); i++) {
+			delete queue_[i];
+		}
+	};
+
 	int GetQueueLength() const { return queue_.size(); }
 
 	void Enqueue( GameBoard* b) { queue_.push_back(b); }

@@ -63,6 +63,8 @@ void AStarAlgorithm::Run() const
 		count++;
 		
 		std::cout << count << " --- " << node->GetHValue() << std::endl;
+
+		delete node;
 	}
 }
 
