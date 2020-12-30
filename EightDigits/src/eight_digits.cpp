@@ -66,24 +66,6 @@ bool GameBoard::TakeMove(const Move move)
 	return true;
 }
 
-void GameBoard::Display()
-{
-	std::cout << std::endl;
-	for (int i = 0; i < row_; ++i)
-	{
-		for (int j = 0; j < column_; ++j)
-		{
-			int current_digit = board_[i * row_ + j];
-			if(current_digit == 0)
-				std::cout << '*' << ' ';
-			else
-				std::cout << current_digit << ' ';
-		}
-		std::cout << std::endl;
-	}
-	std::cout << std::endl;
-}
-
 bool GameBoard::HasSolution()
 {
 	int count = 0;

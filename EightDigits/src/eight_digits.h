@@ -1,15 +1,36 @@
 #pragma once
 
+#include <iostream>
 #include <vector>
 
 
 enum class Move { kLeft, kRight, kUp, kDown };
 
-
 class GameBoard {
 
 public:
-	void Display();
+
+	// For Display
+	friend std::ostream& operator<<(std::ostream& os, const GameBoard& gb)
+	{
+		os << std::endl;
+		for (int i = 0; i < gb.row_; ++i)
+		{
+			for (int j = 0; j < gb.column_; ++j)
+			{
+				int current_digit = gb.board_[i * gb.row_ + j];
+				if (current_digit == 0)
+					os << '*' << ' ';
+				else
+					os << current_digit << ' ';
+			}
+			os << std::endl;
+		}
+		os << std::endl;
+
+		return os;
+	};
+
 	bool HasSolution();
 	bool IsSolved();
 
