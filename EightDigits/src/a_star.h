@@ -10,13 +10,13 @@ class Queue {
 
 public:
 	
-	Queue() { queue_ = {}; };
+	Queue() : queue_({}) {}
 
 	~Queue() {
 		for (int i = 0; i < queue_.size(); i++) {
 			delete queue_[i];
 		}
-	};
+	}
 
 	int GetQueueLength() const { return queue_.size(); }
 
@@ -56,11 +56,11 @@ class AStarAlgorithm {
 
 public:
 	AStarAlgorithm();
-	void Run() const;
+	void Run();
 	
 private:
-	Queue* queue_;
-	Queue* visited_queue_;
+	Queue queue_;
+	Queue visited_queue_;
 
-	void ExpandNode(GameBoard*) const;
+	void ExpandNode(GameBoard*);
 };

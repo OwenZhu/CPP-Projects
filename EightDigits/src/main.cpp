@@ -3,7 +3,7 @@
 #include <iostream>
 
 int main() {
-	AStarAlgorithm const a_star;
+	AStarAlgorithm a_star;
 	a_star.Run();
 	system("pause");
 	return 0;
