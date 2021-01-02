@@ -3,6 +3,7 @@
 #include <iostream>
 #include <random>
 #include <chrono>
+#include <memory>
 
 #include "eight_digits.h"
 
@@ -17,7 +18,7 @@ AStarAlgorithm::AStarAlgorithm()
 
 	std::vector<int> init_digits = { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
 	
-	auto* init_gb = new GameBoard();
+	std::shared_ptr<GameBoard> init_gb = std::make_shared<GameBoard>();
 
 	std::cout << "Init Game Board" << std::endl;
 	
@@ -40,10 +41,11 @@ AStarAlgorithm::AStarAlgorithm()
 void AStarAlgorithm::Run()
 {
 	int count = 0;
+	std::shared_ptr<GameBoard> node;
 	
 	while (queue_.GetQueueLength() != 0) {
 		
-		auto* node = queue_.Dequeue();
+		node = queue_.Dequeue();
 
 		std::cout << *node;
 		
@@ -62,17 +64,16 @@ void AStarAlgorithm::Run()
 		
 		std::cout << count << " --- " << node->GetHValue() << std::endl;
 
-		delete node;
 	}
 }
 
 
-void AStarAlgorithm::ExpandNode(GameBoard* gb)
+void AStarAlgorithm::ExpandNode(std::shared_ptr<GameBoard> gb)
 {
 
 	for (const auto& m : MOVES)
 	{
-		auto* new_gb = new GameBoard();
+		std::shared_ptr<GameBoard> new_gb = std::make_shared<GameBoard>();
 		
 		new_gb->Init(*gb);
 		

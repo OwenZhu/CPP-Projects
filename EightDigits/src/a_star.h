@@ -12,18 +12,14 @@ public:
 	
 	Queue() : queue_({}) {}
 
-	~Queue() {
-		for (int i = 0; i < queue_.size(); i++) {
-			delete queue_[i];
-		}
-	}
+	~Queue() { queue_.clear(); }
 
 	int GetQueueLength() const { return queue_.size(); }
 
-	void Enqueue( GameBoard* b) { queue_.push_back(b); }
+	void Enqueue(std::shared_ptr<GameBoard> b) { queue_.push_back(b); }
 	
-	GameBoard* Dequeue() {
-		auto* gb = queue_[0];
+	std::shared_ptr<GameBoard> Dequeue() {
+		std::shared_ptr<GameBoard> gb = queue_[0];
 		int pos = 0;
 
 		for (int i = 0; i < queue_.size(); i++) {
@@ -38,8 +34,8 @@ public:
 		return gb;
 	}
 
-	bool IsInQueue(const GameBoard* gb) const {
-		for (auto* i : queue_) {
+	bool IsInQueue(const std::shared_ptr<GameBoard> gb) const {
+		for (std::shared_ptr<GameBoard> i : queue_) {
 			if (gb->GetBoard() == i->GetBoard()) {
 				return true;
 			}
@@ -48,7 +44,7 @@ public:
 	}
 
 private:
-	std::vector<GameBoard*> queue_;
+	std::vector<std::shared_ptr<GameBoard>> queue_;
 };
 
 
@@ -62,5 +58,5 @@ private:
 	Queue queue_;
 	Queue visited_queue_;
 
-	void ExpandNode(GameBoard*);
+	void ExpandNode(std::shared_ptr<GameBoard>);
 };

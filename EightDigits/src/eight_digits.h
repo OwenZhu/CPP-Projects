@@ -13,16 +13,20 @@ public:
 	// For Display
 	friend std::ostream& operator<<(std::ostream& os, const GameBoard& gb)
 	{
+		int digit;
+
 		os << std::endl;
+
 		for (int i = 0; i < gb.row_; ++i)
 		{
 			for (int j = 0; j < gb.column_; ++j)
 			{
-				int current_digit = gb.board_[i * gb.row_ + j];
-				if (current_digit == 0)
+				digit = gb.board_[i * gb.row_ + j];
+
+				if (digit == 0)
 					os << '*' << ' ';
 				else
-					os << current_digit << ' ';
+					os << digit << ' ';
 			}
 			os << std::endl;
 		}
@@ -31,8 +35,9 @@ public:
 		return os;
 	};
 
-	bool HasSolution();
-	bool IsSolved();
+	bool HasSolution() const;
+
+	bool IsSolved() const;
 
 	static bool OnRightBoundary(const int pos) { return (pos + 1) % column_ == 0; }
 
@@ -46,7 +51,7 @@ public:
 
 	inline void SetHeuristicValue();
 
-	inline int GetSpacePosition();
+	inline int GetSpacePosition() const;
 
 	int GetHValue() const { return h_value_; }
 	

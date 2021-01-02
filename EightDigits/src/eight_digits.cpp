@@ -66,7 +66,7 @@ bool GameBoard::TakeMove(const Move move)
 	return true;
 }
 
-bool GameBoard::HasSolution()
+bool GameBoard::HasSolution() const
 {
 	int count = 0;
 	for (int i = 0; i < GetBoardSize(); ++i)
@@ -81,7 +81,7 @@ bool GameBoard::HasSolution()
 	return count % 2 ? false : true;
 }
 
-bool GameBoard::IsSolved()
+bool GameBoard::IsSolved() const
 {
 	for (int i = 0; i < GetBoardSize(); i++)
 		if (board_[i] != i)
@@ -90,7 +90,7 @@ bool GameBoard::IsSolved()
 }
 
 
-int GameBoard::GetSpacePosition()
+int GameBoard::GetSpacePosition() const
 {
 	for (int i = 0; i < GetBoardSize(); i++)
 		if (!board_[i])
