@@ -26,7 +26,7 @@ AStarAlgorithm::AStarAlgorithm()
 	{
 		std::shuffle(std::begin(init_digits), std::end(init_digits), rng);
 		
-		init_gb->Init(init_digits);
+		*init_gb = GameBoard(init_digits);
 		
 		if (init_gb->HasSolution())
 		{
@@ -74,8 +74,8 @@ void AStarAlgorithm::ExpandNode(std::shared_ptr<GameBoard> gb)
 	for (const auto& m : MOVES)
 	{
 		std::shared_ptr<GameBoard> new_gb = std::make_shared<GameBoard>();
-		
-		new_gb->Init(*gb);
+
+		*new_gb = *gb;
 		
 		new_gb->TakeMove(m);
 		

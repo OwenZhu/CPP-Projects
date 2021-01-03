@@ -2,7 +2,13 @@
 
 #include <iostream>
 
-int GameBoard::SumManhattanDistance()
+
+bool GameBoard::operator==(const GameBoard& rhs)
+{
+	return this->board_ == rhs.board_;
+}
+
+int GameBoard::SumManhattanDistance() const
 {
 	auto sum = 0;
 	for (auto i = 0; i < GetBoardSize(); i++)

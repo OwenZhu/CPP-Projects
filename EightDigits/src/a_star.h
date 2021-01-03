@@ -36,9 +36,7 @@ public:
 
 	bool IsInQueue(const std::shared_ptr<GameBoard> gb) const {
 		for (std::shared_ptr<GameBoard> i : queue_) {
-			if (gb->GetBoard() == i->GetBoard()) {
-				return true;
-			}
+			if (*gb == *i) return true;
 		}
 		return false;
 	}

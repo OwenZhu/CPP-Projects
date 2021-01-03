@@ -8,7 +8,29 @@ enum class Move { kLeft, kRight, kUp, kDown };
 
 class GameBoard {
 
+private:
+
+	static const int row_ = 3, column_ = 3;
+	
+	std::vector<int> board_;
+
+	int SumManhattanDistance() const;
+	
+	int h_value_ = 0; // heuristic value
+	
+	int g_value_ = 0;
+
 public:
+	GameBoard() {}
+
+	GameBoard(const std::vector<int>& digits):
+		board_(digits)
+	{
+		h_value_ = SumManhattanDistance();
+		g_value_ = 0;
+	};
+
+	bool operator==(const GameBoard& rhs);
 
 	// For Display
 	friend std::ostream& operator<<(std::ostream& os, const GameBoard& gb)
@@ -47,8 +69,6 @@ public:
 
 	static bool OnBottomBoundary(const int pos) { return pos / column_ == row_ - 1; }
 
-	std::vector<int> GetBoard() const { return board_; }
-
 	inline void SetHeuristicValue();
 
 	inline int GetSpacePosition() const;
@@ -60,26 +80,5 @@ public:
 	inline int GetGValue() const { return g_value_; }
 
 	bool TakeMove(Move);
-	
-	void Init(const std::vector<int>& digits)
-	{
-		board_ = digits;
-		h_value_ = SumManhattanDistance();
-		g_value_ = 0;
-	};
 
-	void Init(const GameBoard& rhs)
-	{
-		board_ = rhs.GetBoard();
-		h_value_ = rhs.GetHValue();
-		g_value_ = rhs.GetGValue();
-	}
-
-private:
-	static const int row_ = 3, column_ = 3;
-	std::vector<int> board_;
-
-	int SumManhattanDistance();
-	int h_value_ = 0; // heuristic value
-	int g_value_ = 0;
 };
