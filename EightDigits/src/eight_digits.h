@@ -1,18 +1,20 @@
 #pragma once
 
 #include <iostream>
-#include <vector>
+#include <array>
 
 
 enum class Move { kLeft, kRight, kUp, kDown };
 
+
 class GameBoard {
 
 private:
-
 	static const int row_ = 3, column_ = 3;
-	
-	std::vector<int> board_;
+
+	static const int size_ = row_ * column_;
+
+	std::array<int, row_ * column_> board_;
 
 	int SumManhattanDistance() const;
 	
@@ -21,41 +23,19 @@ private:
 	int g_value_ = 0;
 
 public:
-	GameBoard() {}
 
-	GameBoard(const std::vector<int>& digits):
+	GameBoard(const std::array<int, size_>& digits):
 		board_(digits)
 	{
 		h_value_ = SumManhattanDistance();
 		g_value_ = 0;
 	};
 
+
 	bool operator==(const GameBoard& rhs);
 
 	// For Display
-	friend std::ostream& operator<<(std::ostream& os, const GameBoard& gb)
-	{
-		int digit;
-
-		os << std::endl;
-
-		for (int i = 0; i < gb.row_; ++i)
-		{
-			for (int j = 0; j < gb.column_; ++j)
-			{
-				digit = gb.board_[i * gb.row_ + j];
-
-				if (digit == 0)
-					os << '*' << ' ';
-				else
-					os << digit << ' ';
-			}
-			os << std::endl;
-		}
-		os << std::endl;
-
-		return os;
-	};
+	friend std::ostream& operator<<(std::ostream& os, const GameBoard& gb);
 
 	bool HasSolution() const;
 

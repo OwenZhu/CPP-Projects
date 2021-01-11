@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "eight_digits.h"
 
 
@@ -10,19 +12,19 @@ class Queue {
 
 public:
 	
-	Queue() : queue_({}) {}
+	Queue() : queue_({}) { queue_.reserve(10000); }
 
 	~Queue() { queue_.clear(); }
 
 	int GetQueueLength() const { return queue_.size(); }
 
-	void Enqueue(std::shared_ptr<GameBoard> b) { queue_.push_back(b); }
+	void Enqueue(const std::shared_ptr<GameBoard>& b) { queue_.push_back(b); }
 	
 	std::shared_ptr<GameBoard> Dequeue() {
 		std::shared_ptr<GameBoard> gb = queue_[0];
 		int pos = 0;
 
-		for (int i = 0; i < queue_.size(); i++) {
+		for (unsigned int i = 0; i < queue_.size(); i++) {
 			if (queue_[i]->GetHValue() < gb->GetHValue()) {
 				gb = queue_[i];
 				pos = i;
@@ -35,7 +37,7 @@ public:
 	}
 
 	bool IsInQueue(const std::shared_ptr<GameBoard> gb) const {
-		for (std::shared_ptr<GameBoard> i : queue_) {
+		for (const std::shared_ptr<GameBoard>& i : queue_) {
 			if (*gb == *i) return true;
 		}
 		return false;
@@ -49,11 +51,15 @@ private:
 class AStarAlgorithm {
 
 public:
+
 	AStarAlgorithm();
+
 	void Run();
 	
 private:
+
 	Queue queue_;
+	
 	Queue visited_queue_;
 
 	void ExpandNode(std::shared_ptr<GameBoard>);

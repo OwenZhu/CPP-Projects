@@ -95,7 +95,6 @@ bool GameBoard::IsSolved() const
 	return true;
 }
 
-
 int GameBoard::GetSpacePosition() const
 {
 	for (int i = 0; i < GetBoardSize(); i++)
@@ -103,3 +102,27 @@ int GameBoard::GetSpacePosition() const
 			return i;
 	return -1;
 }
+
+std::ostream& operator<<(std::ostream& os, const GameBoard& gb)
+{
+	int digit;
+
+	os << std::endl;
+
+	for (int i = 0; i < gb.row_; ++i)
+	{
+		for (int j = 0; j < gb.column_; ++j)
+		{
+			digit = gb.board_[i * gb.row_ + j];
+
+			if (digit == 0)
+				os << '*' << ' ';
+			else
+				os << digit << ' ';
+		}
+		os << std::endl;
+	}
+	os << std::endl;
+
+	return os;
+};
