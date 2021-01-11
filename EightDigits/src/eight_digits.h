@@ -10,6 +10,7 @@ enum class Move { kLeft, kRight, kUp, kDown };
 class GameBoard {
 
 private:
+	
 	static const int row_ = 3, column_ = 3;
 
 	static const int size_ = row_ * column_;
@@ -54,8 +55,6 @@ public:
 	inline int GetSpacePosition() const;
 
 	int GetHValue() const { return h_value_; }
-	
-	static int GetBoardSize() { return row_ * column_; }
 
 	inline int GetGValue() const { return g_value_; }
 
