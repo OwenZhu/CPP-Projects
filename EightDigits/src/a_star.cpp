@@ -5,8 +5,40 @@
 #include <chrono>
 #include <memory>
 #include <array>
+#include <algorithm>
 
 #include "eight_digits.h"
+
+
+class Timer {
+
+private:
+	std::chrono::time_point<std::chrono::system_clock> start;
+	std::chrono::time_point<std::chrono::system_clock> end;
+	std::chrono::time_point<std::chrono::system_clock> current;
+
+public:
+	Timer() {
+		start = std::chrono::system_clock::now();
+	}
+
+	virtual ~Timer() {
+		end = std::chrono::system_clock::now();
+		auto duration =
+			std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+
+		std::cout << "Time: " << duration << std::endl;
+	}
+
+	void Pause() {
+		current = std::chrono::system_clock::now();
+		auto duration =
+			std::chrono::duration_cast<std::chrono::milliseconds>(current - start).count();
+
+		std::cout << "Time: " << duration << std::endl;
+		std::cin.get();
+	}
+};
 
 
 AStarAlgorithm::AStarAlgorithm()
@@ -43,46 +75,40 @@ void AStarAlgorithm::Run()
 {
 	int count = 0;
 	std::shared_ptr<GameBoard> node;
-
-	std::chrono::time_point<std::chrono::system_clock> start_time = std::chrono::system_clock::now();
 	
-	while (queue_.GetQueueLength() != 0) {
-		
-		node = queue_.Dequeue();
+	{
+		Timer timer;
 
-		std::cout << *node;
+		while (queue_.GetQueueLength() != 0) {
 		
-		visited_queue_.Enqueue(node);
+			node = queue_.Dequeue();
+
+			std::cout << *node;
 		
-		if (node->IsSolved()) {
-			
-			std::cout << "Searching Finish" << std::endl;
-			
-			break;
-		}
-
-		ExpandNode(node);
-
-		count++;
+			visited_queue_.Enqueue(node);
 		
-		std::cout << count << " --- " << node->GetHValue() << std::endl;
+			if (node->IsSolved()) {
+			
+				std::cout << "Searching Finish" << std::endl;
+			
+				break;
+			}
 
-		// Stop Timer For every 1000 steps
-		if (count % 1000 == 0) 
-		{
-			std::chrono::time_point<std::chrono::system_clock> current_time = std::chrono::system_clock::now();
-			const unsigned interval = 
-				(unsigned)std::chrono::duration_cast<std::chrono::milliseconds>(current_time - start_time).count();
-			
-			std::cout << "Time: " << interval << std::endl;
-			
-			system("pause");
+			ExpandNode(node);
+
+			count++;
+		
+			std::cout << count << " --- " << node->GetHValue() << std::endl;
+
+			// Stop Timer For every 1000 steps
+			if (count % 1000 == 0)
+				timer.Pause();
 		}
 	}
 }
 
 
-void AStarAlgorithm::ExpandNode(std::shared_ptr<GameBoard> gb)
+void AStarAlgorithm::ExpandNode(std::shared_ptr<GameBoard>& gb)
 {
 
 	for (const auto& m : MOVES)

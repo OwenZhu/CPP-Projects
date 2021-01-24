@@ -31,7 +31,7 @@ void GameBoard::SetHeuristicValue()
 	h_value_ = SumManhattanDistance() + g_value_;
 }
 
-bool GameBoard::TakeMove(const Move move)
+bool GameBoard::TakeMove(const Move& move)
 {
 	const auto space_pos = GetSpacePosition();
 

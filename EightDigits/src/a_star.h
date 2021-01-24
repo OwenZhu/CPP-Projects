@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 
 #include "eight_digits.h"
 
@@ -36,7 +37,7 @@ public:
 		return gb;
 	}
 
-	bool IsInQueue(const std::shared_ptr<GameBoard> gb) const {
+	bool IsInQueue(const std::shared_ptr<GameBoard>& gb) const {
 		for (const std::shared_ptr<GameBoard>& i : queue_) {
 			if (*gb == *i) return true;
 		}
@@ -62,5 +63,5 @@ private:
 	
 	Queue visited_queue_;
 
-	void ExpandNode(std::shared_ptr<GameBoard>);
+	void ExpandNode(std::shared_ptr<GameBoard>&);
 };

@@ -2,3 +2,6 @@
 *vcxproj*
 Debug
 *.sln
+.exe
+*log
+Release

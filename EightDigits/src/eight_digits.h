@@ -42,13 +42,13 @@ public:
 
 	bool IsSolved() const;
 
-	static bool OnRightBoundary(const int pos) { return (pos + 1) % column_ == 0; }
+	static bool OnRightBoundary(const int& pos) { return (pos + 1) % column_ == 0; }
 
-	static bool OnLeftBoundary(const int pos) { return pos % column_ == 0; }
+	static bool OnLeftBoundary(const int& pos) { return pos % column_ == 0; }
 
-	static bool OnTopBoundary(const int pos) { return pos / column_ == 0; }
+	static bool OnTopBoundary(const int& pos) { return pos / column_ == 0; }
 
-	static bool OnBottomBoundary(const int pos) { return pos / column_ == row_ - 1; }
+	static bool OnBottomBoundary(const int& pos) { return pos / column_ == row_ - 1; }
 
 	inline void SetHeuristicValue();
 
@@ -58,6 +58,6 @@ public:
 
 	inline int GetGValue() const { return g_value_; }
 
-	bool TakeMove(Move);
+	bool TakeMove(const Move&);
 
 };
