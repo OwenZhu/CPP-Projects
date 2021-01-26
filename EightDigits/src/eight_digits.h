@@ -10,12 +10,9 @@ enum class Move { kLeft, kRight, kUp, kDown };
 class GameBoard {
 
 private:
+	static const int NUM = 9;
 	
-	static const int row_ = 3, column_ = 3;
-
-	static const int size_ = row_ * column_;
-
-	std::array<int, row_ * column_> board_;
+	std::array<int, NUM> board_;
 
 	int SumManhattanDistance() const;
 
@@ -23,7 +20,7 @@ private:
 
 public:
 
-	GameBoard(const std::array<int, size_>& digits):
+	GameBoard(const std::array<int, NUM>& digits):
 		board_(digits)
 	{
 		h_value_ = SumManhattanDistance();
@@ -44,21 +41,21 @@ public:
 
 	bool HasSolution() const;
 
-	static bool OnRightBoundary(const int& pos) { return (pos + 1) % column_ == 0; }
+	static bool OnRightBoundary(const int& pos) { return (pos + 1) % 3 == 0; }
 
-	static bool OnLeftBoundary(const int& pos) { return pos % column_ == 0; }
+	static bool OnLeftBoundary(const int& pos) { return pos % 3 == 0; }
 
-	static bool OnTopBoundary(const int& pos) { return pos / column_ == 0; }
+	static bool OnTopBoundary(const int& pos) { return pos / 3 == 0; }
 
-	static bool OnBottomBoundary(const int& pos) { return pos / column_ == row_ - 1; }
+	static bool OnBottomBoundary(const int& pos) { return pos / 3 == 2; }
 
 	inline void SetHeuristicValue();
 
 	inline int GetSpacePosition() const;
 
-	inline int GetHValue() const { return h_value_; }
+	inline int H() const { return h_value_; }
 
-	inline int GetGValue() const { return g_value_; }
+	inline int G() const { return g_value_; }
 
 	inline int F() const{ return h_value_ + g_value_; }
 

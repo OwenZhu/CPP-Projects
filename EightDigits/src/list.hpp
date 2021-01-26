@@ -33,7 +33,7 @@ public:
 
 	void Append(const T&);
 
-	T Pop(int index);
+	T& Pop(int index);
 
 	int Find(T&);
 
@@ -97,7 +97,7 @@ void List<T>::Insert(const T& elem, int index)
 
 
 template<typename T>
-T List<T>::Pop(int index)
+T& List<T>::Pop(int index)
 {
 	std::shared_ptr<TNode<T>> p = first_;
 	

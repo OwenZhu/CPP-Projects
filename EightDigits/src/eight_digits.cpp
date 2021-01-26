@@ -11,7 +11,7 @@ bool GameBoard::operator==(const GameBoard& rhs)
 int GameBoard::SumManhattanDistance() const
 {
 	int sum = 0;
-	for (auto i = 0; i < size_; i++)
+	for (auto i = 0; i < NUM; i++)
 	{
 		int x = board_[i] / 3;
 		int y = board_[i] % 3;
@@ -54,15 +54,15 @@ bool GameBoard::TakeMove(const Move& move)
 		case Move::kUp:
 			if (OnTopBoundary(space_pos))
 				return false;
-			board_[space_pos] = board_[space_pos - column_];
-			board_[space_pos - column_] = 0;
+			board_[space_pos] = board_[space_pos - 3];
+			board_[space_pos - 3] = 0;
 			break;
 
 		case Move::kDown:
 			if (OnBottomBoundary(space_pos))
 				return false;
-			board_[space_pos] = board_[space_pos + column_];
-			board_[space_pos + column_] = 0;
+			board_[space_pos] = board_[space_pos + 3];
+			board_[space_pos + 3] = 0;
 			break;
 
 		default:
@@ -76,7 +76,7 @@ bool GameBoard::TakeMove(const Move& move)
 bool GameBoard::HasSolution() const
 {
 	int count = 0;
-	for (int i = 0; i < size_; ++i)
+	for (int i = 0; i < NUM; ++i)
 	{
 		int current_digit = board_[i];
 		for (int j = 0; j < i; j++) {
@@ -91,7 +91,7 @@ bool GameBoard::HasSolution() const
 
 int GameBoard::GetSpacePosition() const
 {
-	for (int i = 0; i < size_; i++)
+	for (int i = 0; i < NUM; i++)
 		if (!board_[i])
 			return i;
 	return -1;
@@ -103,11 +103,11 @@ std::ostream& operator<<(std::ostream& os, const GameBoard& gb)
 
 	os << std::endl;
 
-	for (int i = 0; i < gb.row_; ++i)
+	for (int i = 0; i < 3; ++i)
 	{
-		for (int j = 0; j < gb.column_; ++j)
+		for (int j = 0; j < 3; ++j)
 		{
-			digit = gb.board_[i * gb.row_ + j];
+			digit = gb.board_[i * 3 + j];
 
 			if (digit == 0)
 				os << '*' << ' ';

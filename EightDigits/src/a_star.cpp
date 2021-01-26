@@ -119,7 +119,7 @@ void AStarAlgorithm::Run()
 		
 		GameBoard g = list_.Pop(head);
 		
-		if (g.GetHValue() == 0)
+		if (g.H() == 0)
 		{
 			std::cout << "Done!" << std::endl;
 			Printl(g);
@@ -142,7 +142,7 @@ void AStarAlgorithm::Run()
 				if (index <= tail)
 				{
 					GameBoard temp = list_.Pop(index);
-					if (temp.GetGValue() > new_gb.GetGValue())
+					if (temp.G() > new_gb.G())
 						list_.Insert(new_gb, index);
 					continue;
 				}
@@ -153,11 +153,11 @@ void AStarAlgorithm::Run()
 			}
 		}
 
+		head++;
+
 		if (head % 100 == 0) {
 			std::cout << head << " -> " << tail << std::endl;
 			timer.Pause();
 		}
-
-		head++;
 	}
 }
