@@ -36,7 +36,6 @@ public:
 			std::chrono::duration_cast<std::chrono::milliseconds>(current - start).count();
 
 		std::cout << "Time: " << duration << std::endl;
-		std::cin.get();
 	}
 };
 
