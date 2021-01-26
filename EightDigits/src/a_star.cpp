@@ -42,8 +42,9 @@ public:
 
 
 AStarAlgorithm::AStarAlgorithm()
-	: queue_ (Queue()), visited_queue_ (Queue())
 {
+	std::cout << "Init Game Board" << std::endl;
+	
 	// obtain a time-based seed
 	const unsigned seed = (unsigned)std::chrono::system_clock::now().time_since_epoch().count();
 	
@@ -53,7 +54,9 @@ AStarAlgorithm::AStarAlgorithm()
 
 	std::shared_ptr<GameBoard> init_gb;
 
-	std::array<int, 9> init_digits{ 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+	GameBoardArray init_digits{ 4, 0, 1, 2, 5, 8, 7, 6, 3 };
+
+	init_gb = std::make_shared<GameBoard>(init_digits);
 	
 	while (true)
 	{
@@ -67,57 +70,95 @@ AStarAlgorithm::AStarAlgorithm()
 		}
 	}
 
-	queue_.Enqueue(init_gb);
+	list_.Append(GameBoard(*init_gb));
+}
+
+
+AStarAlgorithm::AStarAlgorithm(GameBoardArray& digits)
+{
+	std::cout << "Init Game Board" << std::endl;
+	list_.Append(GameBoard(digits));
+}
+
+
+void AStarAlgorithm::Sort(int index, GameBoard& elem)
+{
+	for (index++; index < list_.Length(); index++)
+	{
+		GameBoard temp = list_.Pop(index);
+		if (elem.F() <= temp.F())
+			break;
+	}
+	list_.Insert(elem, index);
+}
+
+
+void AStarAlgorithm::Printl(GameBoard& g)
+{
+	GameBoard tmp = g;
+	std::vector<GameBoard> traj_list = {g};
+	
+	while (tmp.last != -1)
+	{
+		tmp = list_.Pop(tmp.last);
+		traj_list.push_back(tmp);
+	}
+
+	std::reverse(traj_list.begin(), traj_list.end());
+	for (auto& i : traj_list) {
+		std::cout << i;
+	}
 }
 
 
 void AStarAlgorithm::Run()
 {
-	int count = 0;
-	std::shared_ptr<GameBoard> node;
-	
-	{
-		Timer timer;
+	Timer timer;
 
-		while (queue_.GetQueueLength() != 0) {
+	int head = 0, tail = 0;
+	while (head <= tail){
 		
-			node = queue_.Dequeue();
-
-			std::cout << *node;
+		GameBoard g = list_.Pop(head);
 		
-			visited_queue_.Enqueue(node);
-		
-			if (node->IsSolved()) {
-			
-				std::cout << "Searching Finish" << std::endl;
-			
-				break;
-			}
-
-			ExpandNode(node);
-
-			count++;
-		
-			std::cout << count << " --- " << node->GetHValue() << std::endl;
-
-			// Stop Timer For every 1000 steps
-			if (count % 1000 == 0)
-				timer.Pause();
+		if (g.GetHValue() == 0)
+		{
+			std::cout << "Done!" << std::endl;
+			Printl(g);
+			return;
 		}
-	}
-}
 
+		for (const auto& m : MOVES)
+		{
+			GameBoard new_gb = g;
 
-void AStarAlgorithm::ExpandNode(std::shared_ptr<GameBoard>& gb)
-{
+			if (new_gb.TakeMove(m))
+			{
+				int index = list_.Find(new_gb);
 
-	for (const auto& m : MOVES)
-	{
-		std::shared_ptr<GameBoard> new_gb = std::make_shared<GameBoard>(*gb);
-		
-		new_gb->TakeMove(m);
-		
-		if (!visited_queue_.IsInQueue(new_gb) && !queue_.IsInQueue(new_gb))
-			queue_.Enqueue(new_gb);
+				if (index < head)
+					continue;
+
+				new_gb.last = head;
+
+				if (index <= tail)
+				{
+					GameBoard temp = list_.Pop(index);
+					if (temp.GetGValue() > new_gb.GetGValue())
+						list_.Insert(new_gb, index);
+					continue;
+				}
+
+				Sort(head, new_gb);
+
+				tail++;
+			}
+		}
+
+		if (head % 100 == 0) {
+			std::cout << head << " -> " << tail << std::endl;
+			timer.Pause();
+		}
+
+		head++;
 	}
 }

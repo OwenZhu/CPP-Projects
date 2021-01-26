@@ -18,10 +18,8 @@ private:
 	std::array<int, row_ * column_> board_;
 
 	int SumManhattanDistance() const;
-	
-	int h_value_ = 0; // heuristic value
-	
-	int g_value_ = 0;
+
+	int h_value_, g_value_;
 
 public:
 
@@ -29,9 +27,15 @@ public:
 		board_(digits)
 	{
 		h_value_ = SumManhattanDistance();
-		g_value_ = 0;
-	};
+	}
 
+	GameBoard(const GameBoard& gb)
+	{
+		board_ = gb.board_;
+		h_value_ = gb.h_value_;
+		g_value_ = gb.g_value_;
+		last = gb.last;
+	}
 
 	bool operator==(const GameBoard& rhs);
 
@@ -39,8 +43,6 @@ public:
 	friend std::ostream& operator<<(std::ostream& os, const GameBoard& gb);
 
 	bool HasSolution() const;
-
-	bool IsSolved() const;
 
 	static bool OnRightBoundary(const int& pos) { return (pos + 1) % column_ == 0; }
 
@@ -54,10 +56,14 @@ public:
 
 	inline int GetSpacePosition() const;
 
-	int GetHValue() const { return h_value_; }
+	inline int GetHValue() const { return h_value_; }
 
 	inline int GetGValue() const { return g_value_; }
 
+	inline int F() const{ return h_value_ + g_value_; }
+
 	bool TakeMove(const Move&);
+
+	int last=-1;
 
 };

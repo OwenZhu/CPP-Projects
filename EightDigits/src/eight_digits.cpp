@@ -10,26 +10,26 @@ bool GameBoard::operator==(const GameBoard& rhs)
 
 int GameBoard::SumManhattanDistance() const
 {
-	auto sum = 0;
+	int sum = 0;
 	for (auto i = 0; i < size_; i++)
 	{
-		if (board_[i]) {
-			const auto x = board_[i] / row_;
-			const auto y = board_[i] % row_;
+		int x = board_[i] / 3;
+		int y = board_[i] % 3;
 
-			const auto x_target = (i - 1) / row_;
-			const auto y_target = (i - 1) % row_;
-			sum += abs(x - x_target) + abs(y - y_target);
-		}
+		int target_x = i / 3;
+		int target_y = i % 3;
+		sum += abs(x - target_x) + abs(y - target_y);
 	}
 	return sum;
 }
 
+
 void GameBoard::SetHeuristicValue()
 {
 	g_value_++;
-	h_value_ = SumManhattanDistance() + g_value_;
+	h_value_ = SumManhattanDistance();
 }
+
 
 bool GameBoard::TakeMove(const Move& move)
 {
@@ -72,6 +72,7 @@ bool GameBoard::TakeMove(const Move& move)
 	return true;
 }
 
+
 bool GameBoard::HasSolution() const
 {
 	int count = 0;
@@ -87,13 +88,6 @@ bool GameBoard::HasSolution() const
 	return count % 2 ? false : true;
 }
 
-bool GameBoard::IsSolved() const
-{
-	for (int i = 0; i < size_; i++)
-		if (board_[i] != i)
-			return false;
-	return true;
-}
 
 int GameBoard::GetSpacePosition() const
 {
