@@ -28,5 +28,5 @@ private:
 
 	void Sort(int, GameBoard&);
 
-	void Printl(GameBoard& g);
+	void PrintTraj(GameBoard&) const;
 };

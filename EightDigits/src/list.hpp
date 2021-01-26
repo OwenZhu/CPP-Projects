@@ -31,9 +31,7 @@ public:
 
 	inline int Length() const { return length_; }
 
-	void Append(const T&);
-
-	T& Pop(int index);
+	T& Pop(int index) const;
 
 	int Find(T&);
 
@@ -46,13 +44,6 @@ private:
 	int length_;  
 
 };
-
-
-template<typename T>
-void List<T>::Append(const T& elem)
-{
-	Insert(elem, length_);
-}
 
 
 template<typename T>
@@ -97,7 +88,7 @@ void List<T>::Insert(const T& elem, int index)
 
 
 template<typename T>
-T& List<T>::Pop(int index)
+T& List<T>::Pop(int index) const
 {
 	std::shared_ptr<TNode<T>> p = first_;
 	

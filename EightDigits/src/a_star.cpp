@@ -69,14 +69,14 @@ AStarAlgorithm::AStarAlgorithm()
 		}
 	}
 
-	list_.Append(GameBoard(*init_gb));
+	list_.Insert(GameBoard(*init_gb), 0);
 }
 
 
 AStarAlgorithm::AStarAlgorithm(GameBoardArray& digits)
 {
 	std::cout << "Init Game Board" << std::endl;
-	list_.Append(GameBoard(digits));
+	list_.Insert(GameBoard(digits), 0);
 }
 
 
@@ -92,7 +92,7 @@ void AStarAlgorithm::Sort(int index, GameBoard& elem)
 }
 
 
-void AStarAlgorithm::Printl(GameBoard& g)
+void AStarAlgorithm::PrintTraj(GameBoard& g) const
 {
 	GameBoard tmp = g;
 	std::vector<GameBoard> traj_list = {g};
@@ -122,7 +122,7 @@ void AStarAlgorithm::Run()
 		if (g.H() == 0)
 		{
 			std::cout << "Done!" << std::endl;
-			Printl(g);
+			PrintTraj(g);
 			return;
 		}
 
